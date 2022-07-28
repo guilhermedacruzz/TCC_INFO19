@@ -1,26 +1,18 @@
 #include <Arduino.h>
-#include <Stepper.h>
+#include <WiFi.h>
 
-const int stepsPerRevolution = 2048;  
-
-#define IN1 13
-#define IN2 12
-#define IN3 14
-#define IN4 27
-
-Stepper myStepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
+const char *ssid = "";
+const char *password = "";
 
 void setup() {
-  myStepper.setSpeed(5);
   Serial.begin(115200);
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.println("Conectando no Wifi...");
+  }
+  Serial.println("Conectado na Rede Wifi!");
 }
 
-void loop() {
-  Serial.println("clockwise");
-  myStepper.step(stepsPerRevolution);
-  delay(1000);
-
-  Serial.println("counterclockwise");
-  myStepper.step(-stepsPerRevolution);
-  delay(1000);
-}
+void loop() {}
