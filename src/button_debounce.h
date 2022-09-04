@@ -3,10 +3,11 @@
 
 #define TIMEDEBOUNCE 50
 
+typedef void (*Action)();
+
 class ButtonDebounce
 {
 public:
-  bool isClicked = false;
   int stateButton;
   int stateButtonPrevious = LOW;
   unsigned long timeLastDebounce = 0;
@@ -18,7 +19,7 @@ public:
     pinMode(this->PIN, INPUT_PULLUP);
   }
 
-  void read()
+  void read(Action action)
   {
     int reading = digitalRead(PIN);
 
@@ -34,7 +35,7 @@ public:
         stateButton = reading;
         if (stateButton == LOW)
         {
-          isClicked = !isClicked;
+          action();
         }
       }
     }
