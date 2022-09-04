@@ -1,31 +1,41 @@
 #include <Arduino.h>
-#include <WiFi.h>
-#include <HTTPClient.h>
-#include "post.h"
-#include "message.h"
-#include "encode.h"
+#include <Stepper.h>
 
-extern void postData(String url);
+const int stepsPerRevolution = 2048;
 
-const char *ssid = "";
-const char *password = "";
+#define IN1 13
+#define IN2 12
+#define IN3 14
+#define IN4 27
 
-String apiKey = "";
-String phone_number = "";
+#define BUTTON1 32
+#define BUTTON2 33
+
+// Stepper myStepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
 
 void setup()
 {
+  // myStepper.setSpeed(18);
   Serial.begin(115200);
-  WiFi.begin(ssid, password);
-
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    delay(500);
-    Serial.println("Conectando no Wifi...");
-  }
-  Serial.println("Conectado na Rede Wifi!");
-
-  messageWhatsapp("This is a test");
+  pinMode(BUTTON1, INPUT_PULLUP);
+  pinMode(BUTTON2, INPUT_PULLUP);
 }
 
-void loop() {}
+void loop()
+{
+  // Serial.println("clockwise");
+  // myStepper.step(stepsPerRevolution);
+  // delay(1000);
+  if (digitalRead(BUTTON1) == LOW)
+  {                            // Botão Pressionado;
+    Serial.println("Clicou!"); // Liga led.
+  }
+
+  if (digitalRead(BUTTON2) == LOW)
+  {                            // Botão Pressionado;
+    Serial.println("Clicou!"); // Liga led.
+  }
+  // Serial.println("counterclockwise");
+  // myStepper.step(-stepsPerRevolution);
+  // delay(1000);
+}
