@@ -3,6 +3,8 @@
 #include "utils/button_debounce.h"
 #include "utils/nvs.h"
 #include "models/settings.h"
+#include "components/modes/mode_basic_sample.h"
+#include "components/modes/mode_configuration.h"
 
 const int stepsPerRevolution = 500;
 
@@ -31,16 +33,19 @@ const int stepsPerRevolution = 500;
 
 NVS nvs;
 
+ModeBasicSample *mode;
+
 void setup()
 {
     // myStepper.setSpeed(60);
     Serial.begin(115200);
 
-    nvs.clear();
+    mode = new ModeConfiguration();
 }
 
 void loop()
 {
+    mode->loop();
     // frente.read(action);
     // tras.read(action);
 
