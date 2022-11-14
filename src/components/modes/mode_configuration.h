@@ -1,0 +1,3 @@
+#ifndef _MODE_CONFIGURATION_
+#define _MODE_CONFIGURATION_
+#endif

@@ -5,7 +5,7 @@
 
 String urlEncode(String str);
 
-String urlEncode(String str) 
+String urlEncode(String str)
 {
     String encodedString = "";
     char c;

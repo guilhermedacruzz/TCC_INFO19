@@ -1,8 +1,10 @@
 #include <Arduino.h>
 #include <Stepper.h>
-#include "button_debounce.h"
+#include "utils/button_debounce.h"
+#include "utils/nvs.h"
+#include "models/settings.h"
 
-const int stepsPerRevolution = 2048;
+const int stepsPerRevolution = 500;
 
 #define IN1 13
 #define IN2 12
@@ -15,29 +17,32 @@ const int stepsPerRevolution = 2048;
 #define FRENTE 25
 #define TRAS 26
 
-Stepper myStepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
+// Stepper myStepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
 
-ButtonDebounce frente(FRENTE);
-ButtonDebounce tras(TRAS);
+// ButtonDebounce frente(FRENTE);
+// ButtonDebounce tras(TRAS);
 
-int sentido = 1;
+// int sentido = 1;
 
-void action() {
-  sentido *= -1;
-  Serial.println(sentido);
-}
+// void action() {
+//   sentido *= -1;
+//   Serial.println(sentido);
+// }
+
+NVS nvs;
 
 void setup()
 {
-  myStepper.setSpeed(18);
-  Serial.begin(115200);
+    // myStepper.setSpeed(60);
+    Serial.begin(115200);
+
+    nvs.clear();
 }
 
 void loop()
 {
-  frente.read(action);
-  tras.read(action);
- 
-  Serial.println("clockwise");
-  myStepper.step(stepsPerRevolution * sentido);
+    // frente.read(action);
+    // tras.read(action);
+
+    // myStepper.step(8 * sentido);
 }

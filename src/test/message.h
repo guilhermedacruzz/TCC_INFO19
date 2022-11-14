@@ -15,7 +15,7 @@ void messageWhatsapp(String message)
 {
     String url = "https://api.callmebot.com/whatsapp.php?phone=" + phone_number + "&text=" + urlEncode(message) + "&apikey=" + apiKey;
     Serial.println("Enviando a mensagem!");
-    //postData(url);
+    // postData(url);
 }
 
 #endif
