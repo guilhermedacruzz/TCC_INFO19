@@ -10,6 +10,7 @@ extern NVS nvs;
 
 AsyncWebServer server(80);
 bool status = false;
+String body;
 
 class ModeConfiguration : public ModeBasicSample
 {
@@ -20,6 +21,7 @@ private:
     Settings settings;
 
 public:
+
     ModeConfiguration()
     {
         Serial.println("Iniciando modo de configuração!");
@@ -27,6 +29,7 @@ public:
 
         Serial.println("Criando ponto de acesso....");
         WiFi.softAP(this->assid, this->asecret);
+
 
         // Inicializa o server que recebe das configurações
         server.on(
@@ -45,10 +48,9 @@ public:
                 }
                 mensage[i] = '\0';
 
-                Serial.println(mensage);
-
                 status = true;
-                request->send(200, "text/plain", "Ok!");
+                body = mensage;
+                request->send(200, "text/plain", "Ok! ");
             });
 
         Serial.print("Iniciando server no ip: ");
@@ -60,7 +62,7 @@ public:
     void loop()
     {
         if(status) {
-
+            Serial.println(body);
         }
     }
 };
