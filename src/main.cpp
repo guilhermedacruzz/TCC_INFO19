@@ -19,35 +19,18 @@ const int stepsPerRevolution = 500;
 #define FRENTE 25
 #define TRAS 26
 
-// Stepper myStepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
-
-// ButtonDebounce frente(FRENTE);
-// ButtonDebounce tras(TRAS);
-
-// int sentido = 1;
-
-// void action() {
-//   sentido *= -1;
-//   Serial.println(sentido);
-// }
-
 NVS nvs;
 
 ModeBasicSample *mode;
 
 void setup()
 {
-    // myStepper.setSpeed(60);
     Serial.begin(115200);
-
+    
     mode = new ModeConfiguration();
 }
 
 void loop()
 {
     mode->loop();
-    // frente.read(action);
-    // tras.read(action);
-
-    // myStepper.step(8 * sentido);
 }

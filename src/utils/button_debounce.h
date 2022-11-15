@@ -1,5 +1,5 @@
-#ifndef _BUTTONDEBOUNCE_
-#define _BUTTONDEBOUNCE_
+#ifndef _BUTTON_DEBOUNCE_
+#define _BUTTON_DEBOUNCE_
 
 #include <Arduino.h>
 

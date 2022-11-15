@@ -14,6 +14,8 @@ class Settings
         String ssid;
         String password;
 
+        Settings(){}
+
         Settings(String id, String name, String description, String user_id, int timer, String ssid, String password)
         {
             this->id = id;
