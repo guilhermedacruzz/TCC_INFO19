@@ -5,6 +5,7 @@
 #include "ESPAsyncWebServer.h"
 #include "mode_basic_sample.h"
 #include "./models/settings.h"
+#include "./utils/json.h"
 
 extern NVS nvs;
 
@@ -18,7 +19,6 @@ class ModeConfiguration : public ModeBasicSample
 private:
     const char *assid = "Teste12345";
     const char *asecret = "12345678";
-    Settings settings;
 
 public:
 
@@ -62,7 +62,14 @@ public:
     void loop()
     {
         if(status) {
-            Serial.println(body);
+            Json json;
+            Settings settings = json.deserialize(body);
+
+            nvs.write(settings);
+
+            Serial.println(settings.to_string());
+
+            status = false;
         }
     }
 };
