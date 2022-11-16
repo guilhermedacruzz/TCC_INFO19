@@ -5,6 +5,7 @@
 #include "models/settings.h"
 #include "components/modes/mode_basic_sample.h"
 #include "components/modes/mode_configuration.h"
+#include "components/modes/mode_create_yourself_in_database.h"
 #include "utils/custom_wifi.h"
 
 const int stepsPerRevolution = 500;
@@ -22,6 +23,7 @@ const int stepsPerRevolution = 500;
 
 NVS nvs;
 CustomWiFi wifi;
+Json json;
 
 ModeBasicSample *mode;
 
@@ -29,7 +31,7 @@ void setup()
 {
     Serial.begin(115200);
     
-    mode = new ModeConfiguration();
+    mode = new ModeCreateYourselfInDatabase();
 }
 
 void loop()

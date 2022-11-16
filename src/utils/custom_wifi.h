@@ -58,6 +58,10 @@ public:
 
         Serial.println("Aguarde pela conexão...");
     }
+
+    bool isConnected() {
+        return WiFi.status() == WL_CONNECTED;
+    }
 };
 
 #endif

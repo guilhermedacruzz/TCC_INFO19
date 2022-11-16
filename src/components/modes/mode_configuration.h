@@ -8,6 +8,7 @@
 #include "./utils/json.h"
 
 extern NVS nvs;
+extern Json json;
 
 AsyncWebServer server(80);
 bool status = false;
@@ -21,7 +22,6 @@ private:
     const char *asecret = "12345678";
 
 public:
-
     ModeConfiguration()
     {
         Serial.println("Iniciando modo de configuração!");
@@ -29,7 +29,6 @@ public:
 
         Serial.println("Criando ponto de acesso....");
         WiFi.softAP(this->assid, this->asecret);
-
 
         // Inicializa o server que recebe das configurações
         server.on(
@@ -61,8 +60,8 @@ public:
 
     void loop()
     {
-        if(status) {
-            Json json;
+        if (status)
+        {
             Settings settings = json.deserialize(body);
 
             nvs.write(settings);
