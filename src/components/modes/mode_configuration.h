@@ -19,15 +19,15 @@ private:
     const char *assid = "Teste12345";
     const char *asecret = "12345678";
 
-    NonVolatileStorage *nonVolatileStorage;
-    JsonTools *jsonTools;
+    NonVolatileStorage nonVolatileStorage;
+    JsonTools jsonTools;
 
 public:
     ModeConfiguration(NonVolatileStorage *nonVolatileStorage, JsonTools *jsonTools)
     {
 
-        this->nonVolatileStorage = nonVolatileStorage;
-        this->jsonTools = jsonTools;
+        this->nonVolatileStorage = *nonVolatileStorage;
+        this->jsonTools = *jsonTools;
 
             Serial.println("Iniciando modo de configuração!");
         WiFi.mode(WIFI_MODE_AP); // Modifica o modo do WiFi para Access Point
@@ -67,13 +67,13 @@ public:
     {
         if (status)
         {
-            Settings settings = this->jsonTools->deserialize(body);
+            Settings settings = this->jsonTools.deserialize(body);
 
-            this->nonVolatileStorage->write(settings);
+            this->nonVolatileStorage.write(settings);
 
-            Serial.println(settings.to_string());
+            Serial.println(this->nonVolatileStorage.read().to_string());
 
-            status = false;
+            ESP.restart();
         }
     }
 };

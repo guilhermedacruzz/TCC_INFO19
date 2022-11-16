@@ -36,8 +36,9 @@ void setup()
     }
     else
     {
-        CustomWiFi wifi;
-        mode = new ModeCreateYourselfInDatabase(&nonVolatileStorage, &jsonTools);
+        if(!nonVolatileStorage.check("id")) {
+            mode = new ModeCreateYourselfInDatabase(&nonVolatileStorage, &jsonTools);
+        }
     }
 }
 

@@ -15,18 +15,18 @@ private:
     Settings settings;
     const String endpoint_create = "testeeeeeee";
 
-    NonVolatileStorage *nonVolatileStorage;
-    JsonTools *jsonTools;
+    NonVolatileStorage nonVolatileStorage;
+    JsonTools jsonTools;
     CustomWiFi wifi;
 
 public:
     ModeCreateYourselfInDatabase(NonVolatileStorage *nonVolatileStorage, JsonTools *jsonTools)
     {
-        this->nonVolatileStorage = nonVolatileStorage;
-        this->jsonTools = jsonTools;
+        this->nonVolatileStorage = *nonVolatileStorage;
+        this->jsonTools = *jsonTools;
         this->wifi = wifi;
 
-        this->settings = this->nonVolatileStorage->read();
+        this->settings = this->nonVolatileStorage.read();
         Serial.println(this->settings.to_string());
         wifi = CustomWiFi(this->settings);
 
@@ -41,7 +41,7 @@ public:
             Serial.print("URL: ");
             Serial.println(this->endpoint_create);
 
-            String body = this->jsonTools->createYourselfInDatabase(this->settings); // Cria o json do patch
+            String body = this->jsonTools.createYourselfInDatabase(this->settings); // Cria o json do patch
             Serial.print("JSON: ");
             Serial.println(body);
             // String response = httpPost(endpoint_create, jsonData); // Faz o patch para a api
