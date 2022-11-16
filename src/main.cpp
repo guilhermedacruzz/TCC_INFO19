@@ -5,6 +5,7 @@
 #include "models/settings.h"
 #include "components/modes/mode_basic_sample.h"
 #include "components/modes/mode_configuration.h"
+#include "utils/custom_wifi.h"
 
 const int stepsPerRevolution = 500;
 
@@ -20,6 +21,7 @@ const int stepsPerRevolution = 500;
 #define TRAS 26
 
 NVS nvs;
+CustomWiFi wifi;
 
 ModeBasicSample *mode;
 
