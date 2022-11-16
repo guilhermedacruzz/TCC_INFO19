@@ -1,14 +1,14 @@
-#ifndef _JSON_
-#define _JSON_
+#ifndef _JSON_TOOLS_
+#define _JSON_TOOLS_
 
 #include <typeinfo>
 #include <ArduinoJson.h>
 #include "./models/settings.h"
 
-class Json
+class JsonTools
 {
 public:
-    Json() {}
+    JsonTools() {}
 
     Settings deserialize(String body)
     {

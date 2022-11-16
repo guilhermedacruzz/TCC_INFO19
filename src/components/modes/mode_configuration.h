@@ -5,10 +5,8 @@
 #include "ESPAsyncWebServer.h"
 #include "mode_basic_sample.h"
 #include "./models/settings.h"
-#include "./utils/json.h"
-
-extern NVS nvs;
-extern Json json;
+#include "./utils/non_volatile_storage.h"
+#include "./utils/json_tools.h"
 
 AsyncWebServer server(80);
 bool status = false;
@@ -21,10 +19,17 @@ private:
     const char *assid = "Teste12345";
     const char *asecret = "12345678";
 
+    NonVolatileStorage *nonVolatileStorage;
+    JsonTools *jsonTools;
+
 public:
-    ModeConfiguration()
+    ModeConfiguration(NonVolatileStorage *nonVolatileStorage, JsonTools *jsonTools)
     {
-        Serial.println("Iniciando modo de configuração!");
+
+        this->nonVolatileStorage = nonVolatileStorage;
+        this->jsonTools = jsonTools;
+
+            Serial.println("Iniciando modo de configuração!");
         WiFi.mode(WIFI_MODE_AP); // Modifica o modo do WiFi para Access Point
 
         Serial.println("Criando ponto de acesso....");
@@ -62,9 +67,9 @@ public:
     {
         if (status)
         {
-            Settings settings = json.deserialize(body);
+            Settings settings = this->jsonTools->deserialize(body);
 
-            nvs.write(settings);
+            this->nonVolatileStorage->write(settings);
 
             Serial.println(settings.to_string());
 

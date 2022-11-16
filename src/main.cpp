@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Stepper.h>
 #include "utils/button_debounce.h"
-#include "utils/nvs.h"
+#include "utils/non_volatile_storage.h"
 #include "models/settings.h"
 #include "components/modes/mode_basic_sample.h"
 #include "components/modes/mode_configuration.h"
@@ -21,17 +21,24 @@ const int stepsPerRevolution = 500;
 #define FRENTE 25
 #define TRAS 26
 
-NVS nvs;
-CustomWiFi wifi;
-Json json;
-
 ModeBasicSample *mode;
 
 void setup()
 {
     Serial.begin(115200);
-    
-    mode = new ModeCreateYourselfInDatabase();
+
+    NonVolatileStorage nonVolatileStorage;
+    JsonTools jsonTools;
+
+    if (!nonVolatileStorage.check("name"))
+    {
+        mode = new ModeConfiguration(&nonVolatileStorage, &jsonTools);
+    }
+    else
+    {
+        CustomWiFi wifi;
+        mode = new ModeCreateYourselfInDatabase(&nonVolatileStorage, &jsonTools);
+    }
 }
 
 void loop()
