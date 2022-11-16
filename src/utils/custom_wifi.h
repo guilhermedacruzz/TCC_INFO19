@@ -33,6 +33,8 @@ private:
     }
 
 public:
+    CustomWiFi() {}
+
     CustomWiFi(Settings settings)
     {
         this->settings = settings;
