@@ -18,10 +18,11 @@ String httpPost(String endpoint, String body)
 
     int httpResponseCode = http.POST(body);
 
-    if (httpResponseCode > 0)
-    {
         response = http.getString();
-    }
+    
+
+    Serial.println(httpResponseCode);
+    Serial.println(response);
 
     http.end();
 

@@ -30,10 +30,11 @@ public:
 
     String createYourselfInDatabase(Settings settings)
     {
-        return "{\"name\":" + settings.name +
-               "\"description\":" + settings.description +
-               "\"user_id\":" + settings.user_id +
-               "\"timer\":" + settings.timer + "}";
+        return "{\"name\":\"" + settings.name + "\","
+               "\"description\":\"" + settings.description + "\","
+               "\"user\":\"" + settings.user_id + "\""
+               //"\"timer\":" + settings.timer + 
+               "}";
     }
 
     String createSendDataToApi()

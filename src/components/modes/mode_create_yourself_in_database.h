@@ -7,13 +7,14 @@
 #include "./utils/non_volatile_storage.h"
 #include "./utils/json_tools.h"
 #include "./utils/custom_wifi.h"
+#include "./utils/http_post.h"
 
 class ModeCreateYourselfInDatabase : public ModeBasicSample
 {
 
 private:
     Settings settings;
-    const String endpoint_create = "testeeeeeee";
+    const String endpoint_create = "http://192.168.100.110:3000/iots/create";
 
     NonVolatileStorage nonVolatileStorage;
     JsonTools jsonTools;
@@ -44,9 +45,9 @@ public:
             String body = this->jsonTools.createYourselfInDatabase(this->settings); // Cria o json do patch
             Serial.print("JSON: ");
             Serial.println(body);
-            // String response = httpPost(endpoint_create, jsonData); // Faz o patch para a api
+            String response = httpPost(endpoint_create, body); // Faz o patch para a api
             Serial.print("RESPOSTA: ");
-            // Serial.println(response);
+            Serial.println(response);
 
             /*
             if (!response.compareTo("") == 0)
