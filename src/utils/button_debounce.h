@@ -9,41 +9,44 @@ typedef void (*Action)();
 
 class ButtonDebounce
 {
-    public:
-        int stateButton;
-        int stateButtonPrevious = LOW;
-        unsigned long timeLastDebounce = 0;
-        int PIN;
+private:
+    int stateButton;
+    int stateButtonPrevious = LOW;
+    unsigned long timeLastDebounce = 0;
+    int PIN;
 
-        ButtonDebounce(int PIN)
+public:
+    ButtonDebounce() {}
+
+    ButtonDebounce(int PIN)
+    {
+        this->PIN = PIN;
+        pinMode(this->PIN, INPUT_PULLUP);
+    }
+
+    void read(Action action)
+    {
+        int reading = digitalRead(PIN);
+
+        if (reading != stateButtonPrevious)
         {
-            this->PIN = PIN;
-            pinMode(this->PIN, INPUT_PULLUP);
+            timeLastDebounce = millis();
         }
 
-        void read(Action action)
+        if ((millis() - timeLastDebounce) > TIMEDEBOUNCE)
         {
-            int reading = digitalRead(PIN);
-
-            if (reading != stateButtonPrevious)
+            if (reading != stateButton)
             {
-                timeLastDebounce = millis();
-            }
-
-            if ((millis() - timeLastDebounce) > TIMEDEBOUNCE)
-            {
-                if (reading != stateButton)
+                stateButton = reading;
+                if (stateButton == LOW)
                 {
-                    stateButton = reading;
-                    if (stateButton == LOW)
-                    {
-                        action();
-                    }
+                    action();
                 }
             }
-
-            stateButtonPrevious = reading;
         }
+
+        stateButtonPrevious = reading;
+    }
 };
 
 #endif

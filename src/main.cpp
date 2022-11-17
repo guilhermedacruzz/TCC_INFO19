@@ -9,16 +9,8 @@
 #include "components/modes/mode_send_data_to_api.h"
 #include "utils/custom_wifi.h"
 
-#define IN1 13
-#define IN2 12
-#define IN3 14
-#define IN4 27
-
 #define BUTTON1 32
 #define BUTTON2 33
-
-#define FRENTE 25
-#define TRAS 26
 
 ModeBasicSample *mode;
 
