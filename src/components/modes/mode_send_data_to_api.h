@@ -6,35 +6,36 @@
 #include "./mode_basic_sample.h"
 #include "./utils/button_debounce.h"
 
+const int stepsPerRevolution = 500;
+
+#define IN1 13
+#define IN2 12
+#define IN3 14
+#define IN4 27
+
+#define FRONT 25
+#define BACK 26
+
 class ModeSendDataToApi : public ModeBasicSample
 {
 
 private:
-    const int stepsPerRevolution = 500;
-    const int in1 = 13;
-    const int in2 = 12;
-    const int in3 = 14;
-    const int in4 = 27;
-    const int front = 25;
-    const int back = 26;
-
     Stepper *stepper;
-    ButtonDebounce *buttonFront;
-    ButtonDebounce *sbuttonBack;
+    ButtonDebounce *buttonFront, *sbuttonBack;
 
 public:
     ModeSendDataToApi()
     {
-        this->stepper = new Stepper(this->stepsPerRevolution, in1, in3, in2, in4);
-        this->buttonFront = new ButtonDebounce(front);
-        this->buttonFront = new ButtonDebounce(back);
+        this->stepper = new Stepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
+        this->buttonFront = new ButtonDebounce(FRONT);
+        this->buttonFront = new ButtonDebounce(BACK);
 
         this->stepper->setSpeed(18);
     }
 
     void loop()
     {
-        this->stepper->step(this->stepsPerRevolution);
+        this->stepper->step(stepsPerRevolution);
     }
 };
 
