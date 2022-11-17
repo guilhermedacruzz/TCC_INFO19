@@ -4,10 +4,10 @@
 #include <WiFi.h>
 #include "mode_basic_sample.h"
 #include "./models/settings.h"
-#include "./utils/non_volatile_storage.h"
-#include "./utils/json_tools.h"
-#include "./utils/custom_wifi.h"
-#include "./utils/http_post.h"
+#include "./utils/nvs/non_volatile_storage.h"
+#include "./utils/web/http_post.h"
+#include "./utils/web/custom_wifi.h"
+#include "./utils/web/json_tools.h"
 
 class ModeCreateYourselfInDatabase : public ModeBasicSample
 {

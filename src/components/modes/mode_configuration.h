@@ -5,8 +5,8 @@
 #include "ESPAsyncWebServer.h"
 #include "mode_basic_sample.h"
 #include "./models/settings.h"
-#include "./utils/non_volatile_storage.h"
-#include "./utils/json_tools.h"
+#include "./utils/nvs/non_volatile_storage.h"
+#include "./utils/web/json_tools.h"
 
 AsyncWebServer server(80);
 bool status = false;

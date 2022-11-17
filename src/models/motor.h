@@ -1,19 +1,8 @@
 #ifndef _MOTOR_
 #define _MOTOR_
 
-enum MotorStatus
-{
-    STOPED,
-    OPENING,
-    CLOSING
-};
-
-enum GateStatus
-{
-    CLOSED,
-    RUNNIG,
-    OPENED
-};
+#include "./utils/enums/motor_status.h"
+#include "./utils/enums/gate_status.h"
 
 class Motor
 {

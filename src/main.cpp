@@ -1,13 +1,13 @@
 #include <Arduino.h>
 #include <Stepper.h>
-#include "utils/button_debounce.h"
-#include "utils/non_volatile_storage.h"
+#include "./components/widgets/button_debounce.h"
+#include "./utils/nvs/non_volatile_storage.h"
 #include "models/settings.h"
 #include "components/modes/mode_basic_sample.h"
 #include "components/modes/mode_configuration.h"
 #include "components/modes/mode_create_yourself_in_database.h"
 #include "components/modes/mode_send_data_to_api.h"
-#include "utils/custom_wifi.h"
+#include "./utils/web/custom_wifi.h"
 
 #define BUTTON1 32
 #define BUTTON2 33

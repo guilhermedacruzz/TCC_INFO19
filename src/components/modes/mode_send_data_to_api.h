@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <Stepper.h>
 #include "./mode_basic_sample.h"
-#include "./utils/button_debounce.h"
+#include "./components/widgets/button_debounce.h"
 
 const int stepsPerRevolution = 500;
 
