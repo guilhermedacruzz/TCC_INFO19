@@ -21,14 +21,14 @@ class ModeSendDataToApi : public ModeBasicSample
 
 private:
     Stepper *stepper;
-    ButtonDebounce *buttonFront, *sbuttonBack;
+    ButtonDebounce *buttonFront, *buttonBack;
 
 public:
     ModeSendDataToApi()
     {
         this->stepper = new Stepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
         this->buttonFront = new ButtonDebounce(FRONT);
-        this->buttonFront = new ButtonDebounce(BACK);
+        this->buttonBack = new ButtonDebounce(BACK);
 
         this->stepper->setSpeed(18);
     }
