@@ -12,10 +12,18 @@ private:
     GateStatus gateStatus;
 
 public:
+    Motor() {}
+
     Motor(MotorStatus motorStatus, GateStatus gateStatus)
     {
         this->motorStatus = motorStatus;
         this->gateStatus = gateStatus;
+    }
+
+    String to_string()
+    {
+        return String("MotorStatus: ") + this->motorStatus +
+               String(" GateStatus: ") + this->gateStatus;
     }
 };
 

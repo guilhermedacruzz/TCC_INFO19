@@ -24,7 +24,11 @@ public:
         pinMode(this->PIN, INPUT_PULLUP);
     }
 
-    void read(Action action)
+    bool read() {
+        return digitalRead(PIN);
+    }
+
+    void execute(Action action)
     {
         int reading = digitalRead(PIN);
 
