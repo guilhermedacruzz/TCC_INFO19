@@ -54,11 +54,16 @@ public:
         this->stepper.setSpeed(18);
 
         this->start();
+
+        this->buttonControl.setAction([]{
+            Serial.println("press");
+        });
     }
 
     void loop()
     {
-        this->stepper.step(3);
+        //this->stepper.step(3);
+        this->buttonControl.execute();
     }
 };
 
