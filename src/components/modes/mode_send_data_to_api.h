@@ -18,45 +18,47 @@ const int stepsPerRevolution = 500;
 
 #define BUTTON_FRONT 25
 #define BUTTON_BACK 26
+#define BUTTON_CONTROL 33
 
 class ModeSendDataToApi : public ModeBasicSample
 {
 
 private:
-    Stepper *stepper;
-    ButtonDebounce *buttonFront, *buttonBack;
+    Stepper stepper = Stepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
+    ButtonDebounce
+        buttonFront = ButtonDebounce(BUTTON_FRONT),
+        buttonBack = ButtonDebounce(BUTTON_BACK),
+        buttonControl = ButtonDebounce(BUTTON_CONTROL);
     Motor motor;
 
-    void start() {
+    void start()
+    {
         GateStatus gateStatus = RUNNIG;
         MotorStatus motorStatus = STOPED;
 
-        if(!this->buttonFront->read()) {
+        if (!this->buttonFront.read())
+        {
             gateStatus = CLOSED;
-        } else if (!this->buttonBack->read()) {
+        }
+        else if (!this->buttonBack.read())
+        {
             gateStatus = OPENED;
         }
 
         this->motor = Motor(motorStatus, gateStatus);
-
-        Serial.println(this->motor.to_string());
     }
 
 public:
     ModeSendDataToApi()
     {
-        this->stepper = new Stepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
-        this->stepper->setSpeed(18);
-
-        this->buttonFront = new ButtonDebounce(BUTTON_FRONT);
-        this->buttonBack = new ButtonDebounce(BUTTON_BACK);
+        this->stepper.setSpeed(18);
 
         this->start();
     }
 
     void loop()
     {
-        this->stepper->step(3);
+        this->stepper.step(3);
     }
 };
 

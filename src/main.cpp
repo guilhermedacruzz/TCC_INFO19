@@ -10,7 +10,6 @@
 #include "./utils/web/custom_wifi.h"
 
 #define BUTTON_RESET 32
-#define BUTTON2 33
 
 ModeBasicSample *mode;
 ButtonDebounce buttonReset(BUTTON_RESET);
