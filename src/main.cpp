@@ -9,10 +9,11 @@
 #include "components/modes/mode_send_data_to_api.h"
 #include "./utils/web/custom_wifi.h"
 
-#define BUTTON1 32
+#define BUTTON_RESET 32
 #define BUTTON2 33
 
 ModeBasicSample *mode;
+ButtonDebounce buttonReset(BUTTON_RESET);
 
 void setup()
 {
@@ -34,9 +35,16 @@ void setup()
             mode = new ModeSendDataToApi();
         }
     }
+
+    buttonReset.setAction([] {
+        Serial.println("Resetando....");
+        NonVolatileStorage().clear();
+        ESP.restart();
+    });
 }
 
 void loop()
 {
     mode->loop();
+    buttonReset.execute();
 }

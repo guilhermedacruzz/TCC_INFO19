@@ -56,7 +56,7 @@ public:
 
     void loop()
     {
-        this->stepper->step(stepsPerRevolution);
+        this->stepper->step(3);
     }
 };
 

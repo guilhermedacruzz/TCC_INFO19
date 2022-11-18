@@ -14,6 +14,7 @@ private:
     int stateButtonPrevious = LOW;
     unsigned long timeLastDebounce = 0;
     int PIN;
+    Action action;
 
 public:
     ButtonDebounce() {}
@@ -24,13 +25,19 @@ public:
         pinMode(this->PIN, INPUT_PULLUP);
     }
 
-    bool read() {
+    bool read()
+    {
         return digitalRead(PIN);
     }
 
-    void execute(Action action)
+    void setAction(Action action)
     {
-        int reading = digitalRead(PIN);
+        this->action = action;
+    }
+
+    void execute()
+    {
+        int reading = this->read();
 
         if (reading != stateButtonPrevious)
         {
@@ -44,7 +51,7 @@ public:
                 stateButton = reading;
                 if (stateButton == LOW)
                 {
-                    action();
+                    this->action();
                 }
             }
         }
