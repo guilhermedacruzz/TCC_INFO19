@@ -33,20 +33,14 @@ private:
 
     void start()
     {
-        GateStatus gateStatus = RUNNIG;
-        MotorStatus motorStatus = STOPED_CLOSING;
+        MotorStatus motorStatus = STOPED_OPENING;
 
-        if (!this->buttonFront.read())
+        if (this->buttonFront.read())
         {
-            gateStatus = CLOSED;
-            motorStatus = OPENING;
-        }
-        else if (!this->buttonBack.read())
-        {
-            gateStatus = OPENED;
+            motorStatus = STOPED_CLOSING;
         }
 
-        this->motor = Motor(motorStatus, gateStatus);
+        this->motor = Motor(motorStatus);
     }
 
     void running() {
@@ -67,15 +61,14 @@ public:
         
         this->buttonControl.setAction([&] {
             this->motor.setMotorStatus((MotorStatus)((this->motor.getMotorStatus() + 1) % 4));
+            Serial.println(this->motor.getMotorStatus());
         });
 
         this->buttonFront.setAction([&] {
-            this->motor.setGateStatus(CLOSED);
             this->motor.setMotorStatus(STOPED_CLOSING);
         });
 
         this->buttonBack.setAction([&] {
-            this->motor.setGateStatus(OPENED);
             this->motor.setMotorStatus(STOPED_OPENING);
         });
     }
