@@ -8,16 +8,16 @@
 #include "./utils/nvs/non_volatile_storage.h"
 #include "./utils/web/json_tools.h"
 
-AsyncWebServer server(80);
-bool status = false;
-String body;
-
 class ModeConfiguration : public ModeBasicSample
 {
 
 private:
     const char *assid = "Teste12345";
     const char *asecret = "12345678";
+
+    AsyncWebServer server = AsyncWebServer(80);
+    bool hasMensage = false;
+    String body;
 
     NonVolatileStorage nonVolatileStorage;
     JsonTools jsonTools;
@@ -29,19 +29,19 @@ public:
         this->nonVolatileStorage = *nonVolatileStorage;
         this->jsonTools = *jsonTools;
 
-            Serial.println("Iniciando modo de configuração!");
+        Serial.println("Iniciando modo de configuração!");
         WiFi.mode(WIFI_MODE_AP); // Modifica o modo do WiFi para Access Point
 
         Serial.println("Criando ponto de acesso....");
         WiFi.softAP(this->assid, this->asecret);
 
         // Inicializa o server que recebe das configurações
-        server.on(
+        this->server.on(
             "/hello",
             HTTP_POST,
             [](AsyncWebServerRequest *request) {},
             NULL,
-            [](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total)
+            [&](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total)
             {
                 size_t i;
                 char mensage[len];
@@ -52,22 +52,22 @@ public:
                 }
                 mensage[i] = '\0';
 
-                status = true;
-                body = mensage;
-                request->send(200, "text/plain", "Ok! ");
+                this->hasMensage = true;
+                this->body = mensage;
+                request->send(200, "text/plain", "Ok!");
             });
 
         Serial.print("Iniciando server no ip: ");
         Serial.println(WiFi.softAPIP());
 
-        server.begin();
+        this->server.begin();
     }
 
     void loop()
     {
-        if (status)
+        if (this->hasMensage)
         {
-            Settings settings = this->jsonTools.deserialize(body);
+            Settings settings = this->jsonTools.deserialize(this->body);
 
             this->nonVolatileStorage.write(settings);
 
