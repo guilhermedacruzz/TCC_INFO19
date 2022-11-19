@@ -9,29 +9,6 @@ class CustomWiFi
 private:
     Settings settings;
 
-    // Função disparada ao connectar ao WiFi
-    static void WiFiStationConnected(WiFiEvent_t event, WiFiEventInfo_t info)
-    {
-        Serial.println("Conectando ao WiFi!");
-    }
-
-    // Função disparada ao conseguir um Ip na Rede
-    static void WiFiGotIP(WiFiEvent_t event, WiFiEventInfo_t info)
-    {
-        Serial.println("Conectado ao WiFi");
-        Serial.println("IP: ");
-        Serial.println(WiFi.localIP());
-    }
-
-    // Função disparada ao desconnectar ao WiFi
-    static void WiFiStationDisconnected(WiFiEvent_t event, WiFiEventInfo_t info)
-    {
-        Serial.println("Desconectado....");
-        Serial.print("Conexão perdida Reason: ");
-        Serial.println(info.disconnected.reason);
-        Serial.println("Aguarde Reconexão");
-    }
-
 public:
     CustomWiFi() {}
 
@@ -47,14 +24,25 @@ public:
         delay(1000);
 
         // Configura os eventos do WiFi
-        WiFi.onEvent(&this->WiFiStationConnected, SYSTEM_EVENT_STA_CONNECTED);
-        WiFi.onEvent(&this->WiFiGotIP, SYSTEM_EVENT_STA_GOT_IP);
-        WiFi.onEvent(&this->WiFiStationDisconnected, SYSTEM_EVENT_STA_DISCONNECTED);
+        WiFi.onEvent([&](WiFiEvent_t event, WiFiEventInfo_t info) { 
+            Serial.println("Conectando ao WiFi!"); 
+        }, SYSTEM_EVENT_STA_CONNECTED); // Função disparada ao connectar ao WiFi
+
+        WiFi.onEvent([&](WiFiEvent_t event, WiFiEventInfo_t info) {
+            Serial.println("Conectado ao WiFi");
+            Serial.println("IP: ");
+            Serial.println(WiFi.localIP()); 
+        }, SYSTEM_EVENT_STA_GOT_IP); // Função disparada ao conseguir um Ip na Rede
+
+        WiFi.onEvent([&](WiFiEvent_t event, WiFiEventInfo_t info) {
+            Serial.println("Desconectado....");
+            Serial.print("Conexão perdida Reason: ");
+            Serial.println(info.disconnected.reason);
+            Serial.println("Aguarde Reconexão");
+            WiFi.begin(this->settings.ssid.c_str(), this->settings.password.c_str());
+        }, SYSTEM_EVENT_STA_DISCONNECTED); // Função disparada ao desconnectar ao WiFi
 
         WiFi.begin(this->settings.ssid.c_str(), this->settings.password.c_str()); // Inicia a conexão com o WiFi
-
-        WiFi.setAutoReconnect(true);
-        WiFi.persistent(true);
 
         Serial.println("Aguarde pela conexão...");
     }
