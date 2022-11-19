@@ -3,9 +3,10 @@
 
 enum MotorStatus
 {
-    STOPED,
+    CLOSING,
+    STOPED_CLOSING,
     OPENING,
-    CLOSING
+    STOPED_OPENING
 };
 
 #endif

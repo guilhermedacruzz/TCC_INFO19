@@ -9,7 +9,7 @@
 #include "./utils/enums/motor_status.h"
 #include "./utils/enums/gate_status.h"
 
-const int stepsPerRevolution = 500;
+const int stepsPerRevolution = 512;
 
 #define IN1 13
 #define IN2 12
@@ -34,11 +34,12 @@ private:
     void start()
     {
         GateStatus gateStatus = RUNNIG;
-        MotorStatus motorStatus = STOPED;
+        MotorStatus motorStatus = STOPED_CLOSING;
 
         if (!this->buttonFront.read())
         {
             gateStatus = CLOSED;
+            motorStatus = OPENING;
         }
         else if (!this->buttonBack.read())
         {
@@ -48,22 +49,43 @@ private:
         this->motor = Motor(motorStatus, gateStatus);
     }
 
+    void running() {
+        if(this->motor.getMotorStatus() == CLOSING) {
+            this->stepper.step(4);
+        }
+        else if((this->motor.getMotorStatus() == OPENING)) {
+            this->stepper.step(-4);
+        }
+    }
+
 public:
     ModeSendDataToApi()
     {
-        this->stepper.setSpeed(18);
+        this->stepper.setSpeed(20);
 
         this->start();
         
         this->buttonControl.setAction([&] {
-            Serial.println(this->motor.to_string());
+            this->motor.setMotorStatus((MotorStatus)((this->motor.getMotorStatus() + 1) % 4));
+        });
+
+        this->buttonFront.setAction([&] {
+            this->motor.setGateStatus(CLOSED);
+            this->motor.setMotorStatus(STOPED_CLOSING);
+        });
+
+        this->buttonBack.setAction([&] {
+            this->motor.setGateStatus(OPENED);
+            this->motor.setMotorStatus(STOPED_OPENING);
         });
     }
 
     void loop()
     {
-        //this->stepper.step(3);
+        this->running();
         this->buttonControl.execute();
+        this->buttonFront.execute();
+        this->buttonBack.execute();
     }
 };
 

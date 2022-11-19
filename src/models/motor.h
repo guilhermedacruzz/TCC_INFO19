@@ -20,6 +20,22 @@ public:
         this->gateStatus = gateStatus;
     }
 
+    GateStatus getGateStatus() {
+        return this->gateStatus;
+    }
+
+    MotorStatus getMotorStatus() {
+        return this->motorStatus;
+    }
+
+    void setMotorStatus(MotorStatus motorStatus) {
+        this->motorStatus = motorStatus;
+    }
+
+    void setGateStatus(GateStatus gateStatus) {
+        this->gateStatus = gateStatus;
+    }
+
     String to_string()
     {
         return String("MotorStatus: ") + this->motorStatus +
