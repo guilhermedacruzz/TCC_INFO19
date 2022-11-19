@@ -2,10 +2,11 @@
 #define _BUTTON_DEBOUNCE_
 
 #include <Arduino.h>
+#include <functional>
+
+typedef std::function<void(void)> Action;
 
 #define TIMEDEBOUNCE 50
-
-typedef void (*Action)();
 
 class ButtonDebounce
 {

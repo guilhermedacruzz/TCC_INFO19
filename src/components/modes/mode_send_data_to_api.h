@@ -54,9 +54,9 @@ public:
         this->stepper.setSpeed(18);
 
         this->start();
-
-        this->buttonControl.setAction([]{
-            Serial.println("press");
+        
+        this->buttonControl.setAction([&] {
+            Serial.println(this->motor.to_string());
         });
     }
 
