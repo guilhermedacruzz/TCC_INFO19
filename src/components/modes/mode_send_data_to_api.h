@@ -35,8 +35,9 @@ private:
     {
         MotorStatus motorStatus = STOPED_OPENING;
 
-        if (this->buttonFront.read())
+        if (!this->buttonFront.read())
         {
+            Serial.println("Entrou!");
             motorStatus = STOPED_CLOSING;
         }
 
