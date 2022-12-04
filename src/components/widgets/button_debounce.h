@@ -28,7 +28,7 @@ public:
 
     bool read()
     {
-        return digitalRead(PIN);
+        return digitalRead(PIN) == LOW; 
     }
 
     void setAction(Action action)
@@ -38,7 +38,7 @@ public:
 
     void execute()
     {
-        int reading = this->read();
+        int reading = digitalRead(PIN);
 
         if (reading != stateButtonPrevious)
         {

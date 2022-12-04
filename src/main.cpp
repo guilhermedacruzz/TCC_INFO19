@@ -40,6 +40,8 @@ void setup()
         NonVolatileStorage().clear();
         ESP.restart();
     });
+
+    delay(500);
 }
 
 void loop()

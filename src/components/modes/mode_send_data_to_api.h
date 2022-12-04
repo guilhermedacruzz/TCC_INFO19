@@ -30,25 +30,26 @@ private:
         buttonBack = ButtonDebounce(BUTTON_BACK),
         buttonControl = ButtonDebounce(BUTTON_CONTROL);
     Motor motor;
+    MotorStatus currentMotorStatus = CLOSING;
 
     void start()
     {
         MotorStatus motorStatus = STOPED_OPENING;
 
-        if (!this->buttonFront.read())
+        if (this->buttonFront.read())
         {
-            Serial.println("Entrou!");
             motorStatus = STOPED_CLOSING;
         }
-
         this->motor = Motor(motorStatus);
     }
 
     void running() {
-        if(this->motor.getMotorStatus() == CLOSING) {
+        MotorStatus motorStatus = this->motor.getMotorStatus();
+
+        if(motorStatus == CLOSING) {
             this->stepper.step(4);
         }
-        else if((this->motor.getMotorStatus() == OPENING)) {
+        else if(motorStatus == OPENING) {
             this->stepper.step(-4);
         }
     }
@@ -56,13 +57,12 @@ private:
 public:
     ModeSendDataToApi()
     {
-        this->stepper.setSpeed(20);
+        this->stepper.setSpeed(70);
 
         this->start();
         
         this->buttonControl.setAction([&] {
             this->motor.setMotorStatus((MotorStatus)((this->motor.getMotorStatus() + 1) % 4));
-            Serial.println(this->motor.getMotorStatus());
         });
 
         this->buttonFront.setAction([&] {
