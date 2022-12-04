@@ -13,7 +13,7 @@ class ModeCreateYourselfInDatabase : public ModeBasicSample
 {
 
 private:
-    const String endpoint_create = "http://192.168.100.110:3000/iots/create";
+    const String endpoint_create = "http://192.168.100.110:3000/iots/create/";
 
 public:
     ModeCreateYourselfInDatabase(NonVolatileStorage *nonVolatileStorage, JsonTools *jsonTools) : ModeBasicSample(nonVolatileStorage, jsonTools)
