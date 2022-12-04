@@ -3,6 +3,7 @@
 
 #include <typeinfo>
 #include <ArduinoJson.h>
+#include "./utils/enums/motor_status.h"
 #include "./models/settings.h"
 
 class JsonTools
@@ -31,15 +32,19 @@ public:
     String createYourselfInDatabase(Settings settings)
     {
         return "{\"name\":\"" + settings.name + "\","
-               "\"description\":\"" + settings.description + "\","
-               "\"user\":\"" + settings.user_id + "\""
-               //"\"timer\":" + settings.timer + 
-               "}";
+                                                "\"description\":\"" +
+               settings.description + "\","
+                                      "\"user\":\"" +
+               settings.user_id + "\""
+                                  //"\"timer\":" + settings.timer +
+                                  "}";
     }
 
-    String createSendDataToApi()
+    String createSendDataToApi(Settings settings, MotorStatus motorStatus)
     {
-        return "";
+        return "{\"iot\":\"" + settings.id + "\","
+        "\"minutes\": 1,"
+        "\"status\":\"" + motorStatus + "\"}";
     }
 };
 

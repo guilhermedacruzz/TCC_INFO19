@@ -24,6 +24,10 @@ class ModeSendDataToApi : public ModeBasicSample
 {
 
 private:
+    Settings settings;
+    NonVolatileStorage nonVolatileStorage;
+    JsonTools jsonTools;
+    CustomWiFi wifi;
     Stepper stepper = Stepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
     ButtonDebounce
         buttonFront = ButtonDebounce(BUTTON_FRONT),
@@ -55,23 +59,33 @@ private:
     }
 
 public:
-    ModeSendDataToApi()
+    ModeSendDataToApi(NonVolatileStorage *nonVolatileStorage, JsonTools *jsonTools)
     {
+        this->nonVolatileStorage = *nonVolatileStorage;
+        this->jsonTools = *jsonTools;
+
+        wifi = CustomWiFi(this->settings);
+        wifi.connect();
+
+        this->settings = this->nonVolatileStorage.read();
         this->stepper.setSpeed(70);
 
         this->start();
         
         this->buttonControl.setAction([&] {
             this->motor.setMotorStatus((MotorStatus)((this->motor.getMotorStatus() + 1) % 4));
+            String json = this->jsonTools.createSendDataToApi(this->settings, this->motor.getMotorStatus());
+            Serial.println(json);
         });
 
         this->buttonFront.setAction([&] {
             this->motor.setMotorStatus(STOPED_CLOSING);
         });
-
         this->buttonBack.setAction([&] {
             this->motor.setMotorStatus(STOPED_OPENING);
         });
+        wifi = CustomWiFi(this->settings);
+        wifi.connect();
     }
 
     void loop()
