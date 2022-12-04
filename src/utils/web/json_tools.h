@@ -31,12 +31,11 @@ public:
     String createYourselfInDatabase(Settings settings)
     {
         return "{\"name\":\"" + settings.name + "\","
-                                                "\"description\":\"" +
-               settings.description + "\","
-                                      "\"user\":\"" +
-               settings.user_id + "\""
-                                  //"\"timer\":" + settings.timer +
-                                  "}";
+                "\"description\":\"" + settings.description + "\","
+                "\"user\":\"" +settings.user_id + "\","
+                "\"timer\":" + settings.timer + ","
+                "\"ssid\":\"" + settings.ssid + "\","
+                "\"password\":\"" + settings.password + "\"}";
     }
 
     String createSendDataToApi(Settings settings, String motorStatus)

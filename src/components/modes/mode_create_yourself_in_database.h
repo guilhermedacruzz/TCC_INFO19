@@ -19,7 +19,6 @@ public:
     ModeCreateYourselfInDatabase(NonVolatileStorage *nonVolatileStorage, JsonTools *jsonTools) : ModeBasicSample(nonVolatileStorage, jsonTools)
     {
         this->settings = this->nonVolatileStorage.read();
-        Serial.println(this->settings.to_string());
         wifi = CustomWiFi(this->settings);
         wifi.connect();
     }
@@ -35,23 +34,21 @@ public:
             String body = this->jsonTools.createYourselfInDatabase(this->settings); // Cria o json do patch
             Serial.print("JSON: ");
             Serial.println(body);
-            String response = httpPost(endpoint_create, body); // Faz o patch para a api
+            //String response = httpPost(endpoint_create, body); // Faz o patch para a api
+            String response = "";
             Serial.print("RESPOSTA: ");
             Serial.println(response);
 
-            /*
             if (!response.compareTo("") == 0)
-            {                                    // verifica se obteve resposta
-                //deserializeIdentifier(response); // Deserializa a resposta
-                //writeIdentifier();               // Salva na memória permanente
+            {
+                Settings settings = this->jsonTools.deserialize(response);
 
-                Serial.println("Identificador da lixeira gravado com sucesso!");
+                this->nonVolatileStorage.write(settings);
+
                 Serial.println("Reiniciando....");
                 delay(2000);
-                ESP.restart(); // Reinicia
-            }*/
-
-            delay(2000);
+                //ESP.restart();
+            }
         }
     }
 };
