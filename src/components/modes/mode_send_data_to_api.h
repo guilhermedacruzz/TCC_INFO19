@@ -26,8 +26,6 @@ class ModeSendDataToApi : public ModeBasicSample
 
 private:
     const String endpoint_create = "http://192.168.100.110:3000/logs/create?";
-    Settings settings;
-    CustomWiFi wifi;
     Stepper stepper = Stepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
     ButtonDebounce
         buttonFront = ButtonDebounce(BUTTON_FRONT),

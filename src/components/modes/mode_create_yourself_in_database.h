@@ -13,10 +13,7 @@ class ModeCreateYourselfInDatabase : public ModeBasicSample
 {
 
 private:
-    Settings settings;
     const String endpoint_create = "http://192.168.100.110:3000/iots/create";
-
-    CustomWiFi wifi;
 
 public:
     ModeCreateYourselfInDatabase(NonVolatileStorage *nonVolatileStorage, JsonTools *jsonTools) : ModeBasicSample(nonVolatileStorage, jsonTools)

@@ -17,6 +17,7 @@ String httpPost(String endpoint, String body)
     http.addHeader("Content-Type", "application/json");
 
     int httpResponseCode = http.POST(body);
+    Serial.println("Status Code: " + httpResponseCode);
 
     response = http.getString();
 
