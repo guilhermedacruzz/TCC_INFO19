@@ -25,8 +25,6 @@ class ModeSendDataToApi : public ModeBasicSample
 
 private:
     Settings settings;
-    NonVolatileStorage nonVolatileStorage;
-    JsonTools jsonTools;
     CustomWiFi wifi;
     Stepper stepper = Stepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
     ButtonDebounce
@@ -59,11 +57,8 @@ private:
     }
 
 public:
-    ModeSendDataToApi(NonVolatileStorage *nonVolatileStorage, JsonTools *jsonTools)
+    ModeSendDataToApi(NonVolatileStorage *nonVolatileStorage, JsonTools *jsonTools)  : ModeBasicSample(nonVolatileStorage, jsonTools)
     {
-        this->nonVolatileStorage = *nonVolatileStorage;
-        this->jsonTools = *jsonTools;
-
         wifi = CustomWiFi(this->settings);
         wifi.connect();
 

@@ -19,16 +19,10 @@ private:
     bool hasMensage = false;
     String body;
 
-    NonVolatileStorage nonVolatileStorage;
-    JsonTools jsonTools;
-
 public:
-    ModeConfiguration(NonVolatileStorage *nonVolatileStorage, JsonTools *jsonTools)
+    ModeConfiguration(NonVolatileStorage *nonVolatileStorage, JsonTools *jsonTools) : ModeBasicSample(nonVolatileStorage, jsonTools)
     {
-
-        this->nonVolatileStorage = *nonVolatileStorage;
-        this->jsonTools = *jsonTools;
-
+        
         Serial.println("Iniciando modo de configuração!");
         WiFi.mode(WIFI_MODE_AP); // Modifica o modo do WiFi para Access Point
 

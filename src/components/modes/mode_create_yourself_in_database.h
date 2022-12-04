@@ -16,21 +16,14 @@ private:
     Settings settings;
     const String endpoint_create = "http://192.168.100.110:3000/iots/create";
 
-    NonVolatileStorage nonVolatileStorage;
-    JsonTools jsonTools;
     CustomWiFi wifi;
 
 public:
-    ModeCreateYourselfInDatabase(NonVolatileStorage *nonVolatileStorage, JsonTools *jsonTools)
+    ModeCreateYourselfInDatabase(NonVolatileStorage *nonVolatileStorage, JsonTools *jsonTools) : ModeBasicSample(nonVolatileStorage, jsonTools)
     {
-        this->nonVolatileStorage = *nonVolatileStorage;
-        this->jsonTools = *jsonTools;
-        this->wifi = wifi;
-
         this->settings = this->nonVolatileStorage.read();
         Serial.println(this->settings.to_string());
         wifi = CustomWiFi(this->settings);
-
         wifi.connect();
     }
 
