@@ -42,8 +42,9 @@ public:
     String createSendDataToApi(Settings settings, String motorStatus)
     {
         return "{\"iot\":\"" + settings.id + "\","
-        "\"minutes\": 1,"
-        "\"status\":\"" + motorStatus + "\"}";
+                                             "\"minutes\": 1,"
+                                             "\"status\":\"" +
+               motorStatus + "\"}";
     }
 };
 

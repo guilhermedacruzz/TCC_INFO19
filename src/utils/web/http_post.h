@@ -19,10 +19,6 @@ String httpPost(String endpoint, String body)
     int httpResponseCode = http.POST(body);
 
     response = http.getString();
-    
-
-    Serial.println(httpResponseCode);
-    Serial.println(response);
 
     http.end();
 

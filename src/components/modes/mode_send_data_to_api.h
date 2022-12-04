@@ -25,7 +25,7 @@ class ModeSendDataToApi : public ModeBasicSample
 {
 
 private:
-    const String endpoint_create = "http://192.168.100.110:3000/logs/create";
+    const String endpoint_create = "http://192.168.100.110:3000/logs/create?";
     Settings settings;
     CustomWiFi wifi;
     Stepper stepper = Stepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
@@ -48,19 +48,18 @@ private:
 
     void running() {
         if(this->motor.getMotorStatus() == CLOSING) {
-            this->stepper.step(4);
+            this->stepper.step(6);
         }
         else if(this->motor.getMotorStatus() == OPENING) {
-            this->stepper.step(-4);
+            this->stepper.step(-6);
         }
 
         if(this->motor.hasNewData()) {
             String data = convertMotorStatusToString(this->motor.getMotorStatus());
             String json = this->jsonTools.createSendDataToApi(this->settings, data);
-            
             Serial.println(json);
-            String response = httpPost(endpoint_create, json);
 
+            String response = httpPost(endpoint_create, json);
             Serial.println(response);
 
             this->motor.setNewData(false);
