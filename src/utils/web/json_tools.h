@@ -3,7 +3,6 @@
 
 #include <typeinfo>
 #include <ArduinoJson.h>
-#include "./utils/enums/motor_status.h"
 #include "./models/settings.h"
 
 class JsonTools
@@ -40,7 +39,7 @@ public:
                                   "}";
     }
 
-    String createSendDataToApi(Settings settings, MotorStatus motorStatus)
+    String createSendDataToApi(Settings settings, String motorStatus)
     {
         return "{\"iot\":\"" + settings.id + "\","
         "\"minutes\": 1,"

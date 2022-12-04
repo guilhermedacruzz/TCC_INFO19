@@ -5,9 +5,10 @@
 #include <Stepper.h>
 #include "./mode_basic_sample.h"
 #include "./components/widgets/button_debounce.h"
-#include "./models/motor.h"
+#include "./components/widgets/motor.h"
 #include "./utils/enums/motor_status.h"
-#include "./utils/enums/gate_status.h"
+#include "./utils/web/http_post.h"
+#include "./utils/enums/convert_motor_status_to_string.h"
 
 const int stepsPerRevolution = 512;
 
@@ -24,6 +25,7 @@ class ModeSendDataToApi : public ModeBasicSample
 {
 
 private:
+    const String endpoint_create = "http://192.168.100.110:3000/logs/create";
     Settings settings;
     CustomWiFi wifi;
     Stepper stepper = Stepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
@@ -32,7 +34,6 @@ private:
         buttonBack = ButtonDebounce(BUTTON_BACK),
         buttonControl = ButtonDebounce(BUTTON_CONTROL);
     Motor motor;
-    MotorStatus currentMotorStatus = CLOSING;
 
     void start()
     {
@@ -46,31 +47,37 @@ private:
     }
 
     void running() {
-        MotorStatus motorStatus = this->motor.getMotorStatus();
-
-        if(motorStatus == CLOSING) {
+        if(this->motor.getMotorStatus() == CLOSING) {
             this->stepper.step(4);
         }
-        else if(motorStatus == OPENING) {
+        else if(this->motor.getMotorStatus() == OPENING) {
             this->stepper.step(-4);
+        }
+
+        if(this->motor.hasNewData()) {
+            String data = convertMotorStatusToString(this->motor.getMotorStatus());
+            String json = this->jsonTools.createSendDataToApi(this->settings, data);
+            
+            Serial.println(json);
+            String response = httpPost(endpoint_create, json);
+
+            Serial.println(response);
+
+            this->motor.setNewData(false);
         }
     }
 
 public:
     ModeSendDataToApi(NonVolatileStorage *nonVolatileStorage, JsonTools *jsonTools)  : ModeBasicSample(nonVolatileStorage, jsonTools)
     {
-        wifi = CustomWiFi(this->settings);
-        wifi.connect();
-
         this->settings = this->nonVolatileStorage.read();
         this->stepper.setSpeed(70);
 
         this->start();
         
         this->buttonControl.setAction([&] {
-            this->motor.setMotorStatus((MotorStatus)((this->motor.getMotorStatus() + 1) % 4));
-            String json = this->jsonTools.createSendDataToApi(this->settings, this->motor.getMotorStatus());
-            Serial.println(json);
+            MotorStatus newMotorStatus = (MotorStatus)((this->motor.getMotorStatus() + 1) % 4);
+            this->motor.setMotorStatus(newMotorStatus);
         });
 
         this->buttonFront.setAction([&] {
@@ -79,12 +86,13 @@ public:
         this->buttonBack.setAction([&] {
             this->motor.setMotorStatus(STOPED_OPENING);
         });
+
         wifi = CustomWiFi(this->settings);
         wifi.connect();
     }
 
     void loop()
-    {
+    {   
         this->running();
         this->buttonControl.execute();
         this->buttonFront.execute();
