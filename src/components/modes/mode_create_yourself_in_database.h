@@ -34,20 +34,20 @@ public:
             String body = this->jsonTools.createYourselfInDatabase(this->settings); // Cria o json do patch
             Serial.print("JSON: ");
             Serial.println(body);
-            //String response = httpPost(endpoint_create, body); // Faz o patch para a api
-            String response = "";
+
+            String response = httpPost(endpoint_create, body); // Faz o patch para a api
             Serial.print("RESPOSTA: ");
             Serial.println(response);
 
             if (!response.compareTo("") == 0)
             {
-                Settings settings = this->jsonTools.deserialize(response);
+                Settings newSettings = this->jsonTools.deserialize(response);
 
-                this->nonVolatileStorage.write(settings);
+                this->nonVolatileStorage.write(newSettings);
 
                 Serial.println("Reiniciando....");
                 delay(2000);
-                //ESP.restart();
+                ESP.restart();
             }
         }
     }

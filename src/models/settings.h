@@ -43,7 +43,7 @@ public:
         return String("id: ") + this->id +
                String(" name: ") + this->name +
                String(" description: ") + this->description +
-               String(" user_id: ") + this->user_id +
+               String(" user: ") + this->user_id +
                String(" timer: ") + this->timer +
                String(" ssid: ") + this->ssid +
                String(" password: ") + this->password;

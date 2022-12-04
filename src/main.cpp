@@ -19,7 +19,6 @@ void setup()
     Serial.begin(115200);
 
     NonVolatileStorage nonVolatileStorage;
-    //nonVolatileStorage.write(Settings("63813cb124c47da64ebec329", "name", "description", "user_id", 3, "2.4g Adalberto", "qi2001to500"));
     JsonTools jsonTools;
 
     if (!nonVolatileStorage.check("name"))

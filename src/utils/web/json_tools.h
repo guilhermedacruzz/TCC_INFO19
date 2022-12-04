@@ -19,10 +19,10 @@ public:
         JsonObject obj = doc.as<JsonObject>();
 
         return Settings(
-            (obj["id"].as<String>() != "null" ? obj["id"] : String()),
+            (obj["_id"].as<String>() != "null" ? obj["_id"] : String()),
             obj["name"],
             obj["description"],
-            obj["user_id"],
+            obj["user"],
             obj["timer"],
             obj["ssid"],
             obj["password"]);
